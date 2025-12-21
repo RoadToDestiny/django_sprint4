@@ -34,6 +34,9 @@ class Category(BaseModel):
         verbose_name = 'категория'
         verbose_name_plural = 'Категории'
 
+    def __str__(self):
+        return self.title
+
 
 class Location(BaseModel):
     name = models.CharField(max_length=TEXT_LENGTH,
@@ -43,14 +46,18 @@ class Location(BaseModel):
         verbose_name = 'местоположение'
         verbose_name_plural = 'Местоположения'
 
+    def __str__(self):
+        return self.name
+
 
 class Post(BaseModel):
     title = models.CharField(max_length=TEXT_LENGTH, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
-        help_text='Если установить дату и время в будущем — '
-                  'можно делать отложенные публикации.'
+        help_text=('Введите дату и время в формате ГГГГ-ММ-ДД ЧЧ:ММ:СС. '
+                   'Если указать будущую дату, пост будет опубликован '
+                   'автоматически в указанное время.')
     )
     image = models.ImageField('Фото', upload_to='posts_images', blank=True)
     author = models.ForeignKey(
